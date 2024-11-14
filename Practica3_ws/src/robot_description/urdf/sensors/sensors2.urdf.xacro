@@ -1,0 +1,143 @@
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="sensors">
+<!--  ######## UTILS ########  -->
+<xacro:macro name="solid_cuboid_inertia" params="m w h d">
+    <inertia ixx="${(m*(h*h+d*d))/12}" ixy="0" ixz="0" iyy="${(m*(w*w+d*d))/12}" iyz="0" izz="${(m*(w*w+h*h))/12}"/>
+</xacro:macro>
+<!--  ######### IMU #########  -->
+<xacro:macro name="sensor_imu" params="prefix ns:='' topic:='imu/data' parent *origin">
+    <joint name="${prefix}_joint" type="fixed">
+        <axis xyz="1 0 0"/>
+        <!-- origin xyz="0 0 0.2825"/ -->
+        <xacro:insert_block name="origin"/>
+        <parent link="${parent}"/>
+        <child link="${prefix}_link"/>
+    </joint>
+
+    <link name="${prefix}_link">
+        <inertial>
+            <origin xyz="0.0 0 0.01" rpy="0 0 0"/>
+            <mass value="0.005"/>
+            <xacro:solid_cuboid_inertia m="0.005" w="0.001" h="0.001" d="0.001"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+            <box size="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+    </link>
+    <gazebo reference="${prefix}_link">
+        <gravity>true</gravity>
+        <sensor name="${prefix}_imu_sensor" type="imu">
+            <always_on>true</always_on>
+            <update_rate>100</update_rate>
+            <visualize>true</visualize>
+            <topic>__default_topic__</topic>
+            <plugin filename="libgazebo_ros_imu_sensor.so" 
+                name="${prefix}_imu_plugin">
+            <topicName>${topic}</topicName>
+            <bodyName>${prefix}_link</bodyName>
+            <updateRateHZ>100.0</updateRateHZ>
+            <gaussianNoise>0.0</gaussianNoise>
+            <xyzOffset>0 0 0</xyzOffset>
+            <rpyOffset>0 0 0</rpyOffset>
+            <frameName>${prefix}_link</frameName>
+            </plugin>
+            <pose>0 0 0 0 0 0</pose>
+        </sensor>
+    </gazebo>
+</xacro:macro>
+
+
+<!--  ####### CAMERA #######  -->
+<xacro:macro name="sensor_camera_generic" params="frame_prefix parent *origin node_name:=camera node_namespace:=${None} topic_prefix:=~/ horizontal_fov:=80 vertical_fov:=60 video_width:=1280 video_height:=720 video_fps:=30">
+<!--  node_namespace is used from node_name if not set  -->
+    <xacro:if value="${node_namespace == None}">
+        <xacro:property name="node_namespace" value="${node_name}"/>
+    </xacro:if>
+    <joint name="${frame_prefix}camera_base_joint" type="fixed">
+        <xacro:insert_block name="origin"/>
+        <parent link="${parent}"/>
+        <child link="${frame_prefix}camera_base_link"/>
+    </joint>
+    <link name="${frame_prefix}camera_base_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.025 0.05 0.025"/>
+            </geometry>
+            <material name="light_grey">
+            <color rgba="0.35 0.35 0.35 1"/>
+            </material> 
+        </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.025 0.05 0.025"/>
+                </geometry>
+            </collision>
+        <inertial>
+            <mass value="0.135"/>
+            <origin xyz="0 0 0"/>
+            <xacro:solid_cuboid_inertia m="0.135" w="0.033" h="0.175" d="0.03"/>
+        </inertial>
+    </link>
+<!--  Camera -->
+    <joint name="${frame_prefix}camera_joint" type="fixed">
+        <origin xyz="0.0 -0.06 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="${frame_prefix}camera_base_link"/>
+        <child link="${frame_prefix}camera_frame"/>
+    </joint>
+
+    <link name="${frame_prefix}camera_frame"/>
+
+    <joint name="${frame_prefix}color_optical_joint" type="fixed">
+        <origin xyz="0.0 0 0.0" rpy="${-pi/2} 0.0 ${-pi/2}"/>
+        <parent link="${frame_prefix}camera_frame"/>
+        <child link="${frame_prefix}camera_optical_frame"/>
+    </joint>
+
+    <link name="${frame_prefix}camera_optical_frame"/>
+
+    <gazebo reference="${frame_prefix}camera_frame">
+        <sensor name="${frame_prefix}sensor" type="camera">
+            <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+            <visualize>false</visualize>
+            <update_rate>30</update_rate>
+            <camera>
+                <horizontal_fov>${radians(float(horizontal_fov))}</horizontal_fov>
+                <vertical_fov>${radians(float(vertical_fov))}</vertical_fov>
+                <image>
+                <width>${video_width}</width>
+                <height>${video_height}</height>
+                <format>R8G8B8</format>
+                </image>
+                <clip>
+                <near>0.10</near>
+                <far>100.0</far>
+                </clip>
+                <noise>
+                <type>gaussian</type>
+                <mean>0.0</mean>
+                <stddev>0.007</stddev>
+                </noise>
+            </camera>
+            <plugin name="${node_name}_camera" filename="libgazebo_ros_camera.so">
+                <ros>
+                    <namespace>${node_namespace}/${node_name}</namespace>
+                    <remapping>right/image_raw:=right/image_raw_color</remapping>
+                    <remapping>right/camera_info:=right/camera_info</remapping>
+                </ros>
+                <camera_name>camera1</camera_name>
+                <frame_name>${node_namespace}/${frame_prefix}camera_optical_frame</frame_name>
+            </plugin>
+        </sensor>
+    </gazebo>
+</xacro:macro>
+
+    <xacro:macro name="sensor_camera" params="frame_prefix parent *origin node_namespace:=cameras node_name topic_prefix:=~/">
+        <xacro:sensor_camera_generic frame_prefix="${frame_prefix}" parent="${parent}" node_namespace="${node_namespace}" node_name="${node_name}" topic_prefix="${topic_prefix}" horizontal_fov="110" vertical_fov="70" video_width="1920" video_height="1080" video_fps="30">
+        <xacro:insert_block name="origin"/>
+        </xacro:sensor_camera_generic>
+    </xacro:macro>
+</robot>

@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!-- created with Phobos 1.0.1 "Capricious Choutengan" -->
+  <robot name="robot" xmlns:xacro="http://wiki.ros.org/xacro"> 
+    <xacro:macro name="gazebo_camera">
+            
+        <gazebo reference="${frame_prefix}camera_frame">
+            <sensor name="${frame_prefix}sensor" type="camera">
+            <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+            <visualize>false</visualize>
+            <update_rate>30</update_rate>
+            <camera>
+                <horizontal_fov>${radians(float(horizontal_fov))}</horizontal_fov>
+                <vertical_fov>${radians(float(vertical_fov))}</vertical_fov>
+                <image>
+                <width>${video_width}</width>
+                <height>${video_height}</height>
+                <format>R8G8B8</format>
+                </image>
+                <clip>
+                <near>0.10</near>
+                <far>100.0</far>
+                </clip>
+                <noise>
+                <type>gaussian</type>
+                <mean>0.0</mean>
+                <stddev>0.007</stddev>
+                </noise>
+            </camera>
+            <plugin name="${node_name}_camera" filename="libgazebo_ros_camera.so">
+                <ros>
+                <namespace>${node_namespace}/${node_name}</namespace>
+                <remapping>right/image_raw:=right/image_raw_color</remapping>
+                <remapping>right/camera_info:=right/camera_info</remapping>
+                </ros>
+                <camera_name>camera1</camera_name>
+                <frame_name>${node_namespace}/${frame_prefix}camera_optical_frame</frame_name>
+            </plugin>
+            </sensor>
+        </gazebo>
+    </xacro:macro>
+    
+    
+    </xacro:macro name="sensor_camera"
+            params="frame_prefix
+                        parent
+                        *origin
+                        node_namespace:=cameras
+                        node_name
+                        topic_prefix:=~/" >
+        <xacro:sensor_camera_generic frame_prefix="${frame_prefix}"
+                                        parent="${parent}"
+                                        node_namespace="${node_namespace}"
+                                        node_name="${node_name}"
+                                        topic_prefix="${topic_prefix}"
+                                        horizontal_fov:="110"
+                                        vertical_fov:="70"
+                                        video_width:="1920"
+                                        video_height:="1080"
+                                        video_fps:="30">
+            <xacro:insert_block name="origin"/>
+        </xacro:sensor_camera_generic>
+    </xacro:macro>
+</robot>
+
+    

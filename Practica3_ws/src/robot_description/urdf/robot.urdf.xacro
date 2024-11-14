@@ -1,0 +1,648 @@
+<?xml version="1.0"?>
+<!-- created with Phobos 1.0.1 "Capricious Choutengan" -->
+  <robot name="robot" xmlns:xacro="http://wiki.ros.org/xacro">
+
+ 
+
+    <link name="base_link">
+    </link>
+
+    
+    <link name="cabeza_mono">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="Suzanne">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find robot_description)/meshes/dae/Suzanne.dae" scale="0.54857 0.29358 0.35556"/>
+        </geometry>
+        <material name="Material.016"/>
+      </visual>
+    </link>
+
+    <link name="chasis">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="50.0"/>
+        <inertia ixx="2.11781" ixy="0.18492" ixz="0" iyy="7.11432" iyz="-0.01546" izz="8.96889"/>
+      </inertial>
+      <visual name="base">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find robot_description)/meshes/dae/Cube.001.dae" scale="1.5 0.8 0.2"/>
+        </geometry>
+      </visual>
+      <collision name="base_col">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find robot_description)/meshes/dae/Cube.001.dae" scale="1.5 0.8 0.2"/>
+        </geometry>
+      </collision>
+    </link>
+
+    
+    <link name="eje_dlt_dcha_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="1.0"/>
+        <inertia ixx="0.00456" ixy="0" ixz="0" iyy="0.00245" iyz="0" izz="0.00456"/>
+      </inertial>
+      <visual name="eje_dlt_dcha_obj">
+        <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        <geometry>
+          <cylinder radius="0.07" length="0.2"/>
+        </geometry>
+        <material name="Material.006"/>
+      </visual>
+      <collision name="eje_dlt_dcha_col">
+        <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        <geometry>
+          <cylinder radius="0.07" length="0.2"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="eje_dlt_izq_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="1.0"/>
+        <inertia ixx="0.00456" ixy="0" ixz="0" iyy="0.00245" iyz="0" izz="0.00456"/>
+      </inertial>
+      <visual name="eje_dlt_izq_obj">
+        <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        <geometry>
+          <cylinder radius="0.07" length="0.2"/>
+        </geometry>
+        <material name="Material.011"/>
+      </visual>
+      <collision name="eje_dlt_izq_col">
+        <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        <geometry>
+          <cylinder radius="0.07" length="0.2"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="eje_tr_dcha_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="1.0"/>
+        <inertia ixx="0.00456" ixy="0" ixz="0" iyy="0.00245" iyz="0" izz="0.00456"/>
+      </inertial>
+      <visual name="eje_tr_dcha_obj">
+        <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        <geometry>
+          <cylinder radius="0.07" length="0.2"/>
+        </geometry>
+        <material name="Material.014"/>
+      </visual>
+      <collision name="eje_tr_dcha_col">
+        <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        <geometry>
+          <cylinder radius="0.07" length="0.2"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="eje_tr_izq_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="1.0"/>
+        <inertia ixx="0.00456" ixy="0" ixz="0" iyy="0.00245" iyz="0" izz="0.00456"/>
+      </inertial>
+      <visual name="eje_tr_izq_obj">
+        <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        <geometry>
+          <cylinder radius="0.07" length="0.2"/>
+        </geometry>
+        <material name="Material.012"/>
+      </visual>
+      <collision name="eje_tr_izq_col">
+        <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        <geometry>
+          <cylinder radius="0.07" length="0.2"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="pared_dcha_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="3.0"/>
+        <inertia ixx="0.14438" ixy="-0.00938" ixz="0.01333" iyy="0.77875" iyz="0" izz="0.64562"/>
+      </inertial>
+      <visual name="pared_dcha_obj">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find robot_description)/meshes/dae/Cube.dae" scale="0.075 0.8 0.3"/>
+        </geometry>
+      </visual>
+      <collision name="pared_dcha_col">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find robot_description)/meshes/dae/Cube.035.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="pared_dlt_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="3.0"/>
+        <inertia ixx="0.76625" ixy="0.00087" ixz="0" iyy="0.13188" iyz="-0.01067" izz="0.64562"/>
+      </inertial>
+      <visual name="pared_dlt_obj">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find robot_description)/meshes/dae/Cube.003.dae" scale="0.075 0.8 0.3"/>
+        </geometry>
+      </visual>
+      <collision name="pared_dlt_col">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find robot_description)/meshes/dae/Cube.034.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="pared_izq_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="3.0"/>
+        <inertia ixx="0.13188" ixy="-0.00088" ixz="0.01067" iyy="0.76625" iyz="0" izz="0.64562"/>
+      </inertial>
+      <visual name="pared_izq_obj">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find robot_description)/meshes/dae/Cube.004.dae" scale="0.075 0.8 0.3"/>
+        </geometry>
+      </visual>
+      <collision name="pared_izq_col">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find robot_description)/meshes/dae/Cube.033.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="pared_tr_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="3.0"/>
+        <inertia ixx="0.77875" ixy="0.00938" ixz="0" iyy="0.14438" iyz="-0.01333" izz="0.64562"/>
+      </inertial>
+      <visual name="pared_tr_obj">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find robot_description)/meshes/dae/Cube.005.dae" scale="0.075 0.8 0.3"/>
+        </geometry>
+      </visual>
+      <collision name="pared_tr_col">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find robot_description)/meshes/dae/Cube.036.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+    
+
+    <link name="rueda_dlt_dcha_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="1.0"/>
+        <inertia ixx="0.01662" ixy="0" ixz="0" iyy="0.02926" iyz="0" izz="0.01662"/>
+      </inertial>
+      <visual name="rueda_dlt_dcha_obj">
+        <origin xyz="0 0 0" rpy="-3.14159 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find robot_description)/meshes/dae/Torus.006.dae" scale="0.2 0.2 0.4"/>
+        </geometry>
+        <material name="Material"/>
+      </visual>
+      <collision name="rueda_dlt_dcha_col">
+        <origin xyz="0 0 0" rpy="-3.14159 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find robot_description)/meshes/dae/Torus.004.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="rueda_dlt_izq_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="1.0"/>
+        <inertia ixx="0.01662" ixy="0" ixz="0" iyy="0.02926" iyz="0" izz="0.01662"/>
+      </inertial>
+      <visual name="rueda_dlt_izq_obj">
+        <origin xyz="0 0 0" rpy="-3.14159 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find robot_description)/meshes/dae/Torus.007.dae" scale="0.2 0.2 0.4"/>
+        </geometry>
+        <material name="Material.001"/>
+      </visual>
+      <collision name="rueda_dlt_izq_col">
+        <origin xyz="0 0 0" rpy="-3.14159 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find robot_description)/meshes/dae/Torus.008.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="rueda_tr_dcha_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="1.0"/>
+        <inertia ixx="0.01662" ixy="0" ixz="0" iyy="0.02926" iyz="0" izz="0.01662"/>
+      </inertial>
+      <visual name="rueda_tr_dcha_obj">
+        <origin xyz="0 0 0" rpy="0 -3.14159 0"/>
+        <geometry>
+          <mesh filename="file://$(find robot_description)/meshes/dae/Torus.002.dae" scale="0.2 0.2 0.4"/>
+        </geometry>
+        <material name="Material.005"/>
+      </visual>
+      <collision name="rueda_tr_dcha_col">
+        <origin xyz="0 0 0" rpy="0 -3.14159 0"/>
+        <geometry>
+          <mesh filename="file://$(find robot_description)/meshes/dae/Torus.010.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="rueda_tr_izq_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="1.0"/>
+        <inertia ixx="0.01662" ixy="0" ixz="0" iyy="0.02926" iyz="0" izz="0.01662"/>
+      </inertial>
+      <visual name="rueda_tr_izq_obj">
+        <origin xyz="0 0 0" rpy="-3.14159 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find robot_description)/meshes/dae/Torus.000.dae" scale="0.2 0.2 0.4"/>
+        </geometry>
+        <material name="Material.004"/>
+      </visual>
+      <collision name="rueda_tr_izq_col">
+        <origin xyz="0 0 0" rpy="-3.14159 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find robot_description)/meshes/dae/Torus.001.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="susp_dlt_dcha_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="2.0"/>
+        <inertia ixx="2e-05" ixy="0" ixz="0" iyy="2e-05" iyz="-4e-05" izz="0.00201"/>
+      </inertial>
+      <visual name="susp_dlt_dcha_obj">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.07" length="0.8"/>
+        </geometry>
+        <material name="Material.009"/>
+      </visual>
+      <collision name="susp_dlt_dcha_col">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.07" length="0.8"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="susp_dlt_izq_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="2.0"/>
+        <inertia ixx="0.10912" ixy="0" ixz="0" iyy="0.07472" iyz="0.04901" izz="0.0393"/>
+      </inertial>
+      <visual name="susp_dlt_izq_obj">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.07" length="0.8"/>
+        </geometry>
+        <material name="Material.010"/>
+      </visual>
+      <collision name="susp_dlt_izq_col">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.07" length="0.8"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="susp_tr_dcha_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="2.0"/>
+        <inertia ixx="0.1091" ixy="0" ixz="0" iyy="0.0747" iyz="-0.04901" izz="0.03927"/>
+      </inertial>
+      <visual name="susp_tr_dcha_obj">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.07" length="0.8"/>
+        </geometry>
+        <material name="Material.015"/>
+      </visual>
+      <collision name="susp_tr_dcha_col">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find robot_description)/meshes/dae/Cylinder.027.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="susp_tr_izq_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="2.0"/>
+        <inertia ixx="0.10912" ixy="0" ixz="0" iyy="0.07472" iyz="0.04901" izz="0.0393"/>
+      </inertial>
+      <visual name="susp_tr_izq_obj">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.07" length="0.8"/>
+        </geometry>
+        <material name="Material.013"/>
+      </visual>
+      <collision name="susp_tr_izq_col">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.07" length="0.8"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="cabeza_mono_joint" type="fixed">
+      <origin xyz="-1.75 0 0.55" rpy="0 0 -1.5708"/>
+      <parent link="chasis"/>
+      <child link="cabeza_mono"/>
+    </joint>
+
+
+
+    <joint name="chasis_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="chasis"/>
+    </joint>
+
+    <joint name="eje_dlt_dcha_joint" type="fixed">
+      <origin xyz="0 0.05682 0.40641" rpy="-2.52957 0 0"/>
+      <parent link="susp_dlt_dcha_link"/>
+      <child link="eje_dlt_dcha_link"/>
+    </joint>
+
+    <joint name="eje_dlt_izq_joint" type="fixed">
+      <origin xyz="0 0.05682 0.40641" rpy="-0.61202 -3.14159 0"/>
+      <parent link="susp_dlt_izq_link"/>
+      <child link="eje_dlt_izq_link"/>
+    </joint>
+
+    <joint name="eje_tr_dcha_joint" type="fixed">
+      <origin xyz="0 0.05682 0.40641" rpy="-2.52957 0 0"/>
+      <parent link="susp_tr_dcha_link"/>
+      <child link="eje_tr_dcha_link"/>
+    </joint>
+
+    <joint name="eje_tr_izq_joint" type="fixed">
+      <origin xyz="0 0.05682 0.40641" rpy="-0.61202 3.14159 0"/>
+      <parent link="susp_tr_izq_link"/>
+      <child link="eje_tr_izq_link"/>
+    </joint>
+
+    <joint name="pared_dcha_joint" type="fixed">
+      <origin xyz="-0.7 -0.725 0.5" rpy="0 0 1.5708"/>
+      <parent link="chasis"/>
+      <child link="pared_dcha_link"/>
+    </joint>
+
+    <joint name="pared_dlt_joint" type="fixed">
+      <origin xyz="0.03 0 0.5" rpy="0 0 0"/>
+      <parent link="chasis"/>
+      <child link="pared_dlt_link"/>
+    </joint>
+
+    <joint name="pared_izq_joint" type="fixed">
+      <origin xyz="-0.7 0.725 0.5" rpy="0 0 1.5708"/>
+      <parent link="chasis"/>
+      <child link="pared_izq_link"/>
+    </joint>
+
+    <joint name="pared_tr_joint" type="fixed">
+      <origin xyz="-1.425 0 0.5" rpy="0 0 0"/>
+      <parent link="chasis"/>
+      <child link="pared_tr_link"/>
+    </joint>
+
+    <joint name="rueda_dlt_dcha_joint" type="continuous">
+      <origin xyz="0 -0.12 0" rpy="-1.5708 0 -3.14159"/>
+      <parent link="eje_dlt_dcha_link"/>
+      <child link="rueda_dlt_dcha_link"/>
+      <axis xyz="0 0 1.0"/>
+      <limit effort="0" velocity="0"/>
+    </joint>
+
+    <joint name="rueda_dlt_izq_joint" type="continuous">
+      <origin xyz="0 0.12 0" rpy="-1.5708 0 0"/>
+      <parent link="eje_dlt_izq_link"/>
+      <child link="rueda_dlt_izq_link"/>
+      <axis xyz="0 0 1.0"/>
+      <limit effort="0" velocity="0"/>
+    </joint>
+
+    <joint name="rueda_tr_dcha_joint" type="continuous">
+      <origin xyz="0 -0.12 0" rpy="-1.5708 0 -3.14159 "/>
+      <parent link="eje_tr_dcha_link"/>
+      <child link="rueda_tr_dcha_link"/>
+      <axis xyz="0 0 1.0"/>
+      <limit effort="0" velocity="0"/>
+    </joint>
+
+    <joint name="rueda_tr_izq_joint" type="continuous">
+      <origin xyz="0 0.12 0" rpy="-1.5708 0 0"/>
+      <parent link="eje_tr_izq_link"/>
+      <child link="rueda_tr_izq_link"/>
+      <axis xyz="0 0 1.0"/>
+      <limit effort="0" velocity="0"/>
+    </joint>
+
+    <joint name="susp_dlt_dcha_joint" type="fixed">
+      <origin xyz="1.25 -0.75 -0.4" rpy="2.52957 0 0"/>
+      <parent link="chasis"/>
+      <child link="susp_dlt_dcha_link"/>
+    </joint>
+
+    <joint name="susp_dlt_izq_joint" type="fixed">
+      <origin xyz="1.25 0.75 -0.4" rpy="-0.61202 3.14159 0"/>
+      <parent link="chasis"/>
+      <child link="susp_dlt_izq_link"/>
+    </joint>
+
+    <joint name="susp_tr_dcha_joint" type="fixed">
+      <origin xyz="-1.25 -0.75 -0.4" rpy="2.52957 0 0"/>
+      <parent link="chasis"/>
+      <child link="susp_tr_dcha_link"/>
+    </joint>
+
+    <joint name="susp_tr_izq_joint" type="fixed">
+      <origin xyz="-1.25 0.75 -0.4" rpy="-0.61202 3.14159 0"/>
+      <parent link="chasis"/>
+      <child link="susp_tr_izq_link"/>
+    </joint>
+
+    <!--  Transmission is important to link the joints and the controller (see summit_xl_control/config/summit_xl_control.yaml) -->
+    <transmission name="rueda_dlt_dcha_joint_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rueda_dlt_dcha_joint">
+    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rueda_dlt_dcha_joint_motor">
+    <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    </transmission>
+    <gazebo reference="rueda_dlt_dcha_link">
+    <mu1>5</mu1>
+    <mu2>5</mu2>
+    <!-- kp>2.75e6</kp>
+            <kd>8.25e1</kd>
+            <fdir1>0 0 0</fdir1>
+            <maxContacts>4</maxContacts -->
+    </gazebo>
+
+    <transmission name="rueda_tr_dcha_joint_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rueda_tr_dcha_joint">
+    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rueda_tr_dcha_joint_motor">
+    <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    </transmission>
+    <gazebo reference="rueda_tr_dcha_link">
+    <mu1>5</mu1>
+    <mu2>5</mu2>
+    <!-- kp>2.75e6</kp>
+            <kd>8.25e1</kd>
+            <fdir1>0 0 0</fdir1>
+            <maxContacts>4</maxContacts -->
+    </gazebo>
+
+    <transmission name="rueda_dlt_izq_joint_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rueda_dlt_izq_joint">
+    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rueda_dlt_izq_joint_motor">
+    <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    </transmission>
+    <gazebo reference="rueda_dlt_izq_link">
+    <mu1>5</mu1>
+    <mu2>5</mu2>
+    <!-- kp>2.75e6</kp>
+            <kd>8.25e1</kd>
+            <fdir1>0 0 0</fdir1>
+            <maxContacts>4</maxContacts -->
+    </gazebo>
+
+    <transmission name="rueda_tr_izq_joint_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rueda_tr_izq_joint">
+    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rueda_tr_izq_joint_motor">
+    <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    </transmission>
+    <gazebo reference="rueda_tr_izq_link">
+    <mu1>5</mu1>
+    <mu2>5</mu2>
+    <!-- kp>2.75e6</kp>
+            <kd>8.25e1</kd>
+            <fdir1>0 0 0</fdir1>
+            <maxContacts>4</maxContacts -->
+    </gazebo>
+
+    <material name="Material">
+      <color rgba="0 0 0 1.0"/>
+    </material>
+
+    <material name="Material.001">
+      <color rgba="0.00082 0.00082 0.00082 1.0"/>
+    </material>
+
+    <material name="Material.004">
+      <color rgba="0 0 0 1.0"/>
+    </material>
+
+    <material name="Material.005">
+      <color rgba="0 0 0 1.0"/>
+    </material>
+
+    <material name="Material.006">
+      <color rgba="0.36 0.36 0.36 1.0"/>
+    </material>
+
+    <material name="Material.009">
+      <color rgba="0.4 0.4 0.4 1.0"/>
+    </material>
+
+    <material name="Material.010">
+      <color rgba="0.4 0.4 0.4 1.0"/>
+    </material>
+
+    <material name="Material.011">
+      <color rgba="0.4 0.4 0.4 1.0"/>
+    </material>
+
+    <material name="Material.012">
+      <color rgba="0.4 0.4 0.4 1.0"/>
+    </material>
+
+    <material name="Material.013">
+      <color rgba="0.4 0.4 0.4 1.0"/>
+    </material>
+
+    <material name="Material.014">
+      <color rgba="0.4 0.4 0.4 1.0"/>
+    </material>
+
+    <material name="Material.015">
+      <color rgba="0.4 0.4 0.4 1.0"/>
+    </material>
+
+    <material name="Material.016">
+      <color rgba="0.49693 0.37967 0 1.0"/>
+    </material>
+
+    <!-- sensores -->
+    <xacro:include filename="$(find robot_description)/urdf/sensors/sensors2.urdf.xacro"/>
+    <xacro:arg name="robot_ns" default=""/>
+    <xacro:arg name="prefix" default=""/>
+
+    <xacro:sensor_camera node_name="front_camera" node_namespace="$(arg robot_ns)" parent="chasis" frame_prefix="front_camera_" >
+      <origin xyz="1.5 0 0.2" rpy="0 0 0"/>
+    </xacro:sensor_camera>
+    <!-- <xacro:sensor_camera node_name="arm_camera" node_namespace="$(arg robot_ns)" parent="base_pinza_link" frame_prefix="arm_camera_" >
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+    </xacro:sensor_camera> -->
+    <xacro:sensor_imu ns="$(arg robot_ns)" prefix="$(arg prefix)imu_" parent="chasis">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </xacro:sensor_imu>
+
+    <!-- Gazebo ros control plugins  -->
+    <xacro:arg name="config_controllers" default="$(find robot_description)/config/controllers.yaml"/>
+    <xacro:arg name="update_rate" default="100"/>
+    <xacro:include filename="$(find robot_description)/urdf/ros2_control.urdf.xacro"/>
+    <xacro:ros2_control/>
+
+
+
+    
+  </robot>
